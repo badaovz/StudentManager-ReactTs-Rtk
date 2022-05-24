@@ -1,36 +1,35 @@
 import {
-    Button, InputAdornment,
-    LinearProgress, Pagination, TextField,
-    Typography
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Box } from "@mui/system";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import {
-    columns
-} from "features/dashboard/components/StudentTable";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { studentAction } from "../studentSlice";
+    Button,
+    InputAdornment,
+    LinearProgress,
+    Pagination,
+    TextField,
+    Typography,
+} from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { Box } from '@mui/system';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { columns } from 'features/dashboard/components/StudentTable';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { studentAction } from '../studentSlice';
 
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { DataGrid } from "@mui/x-data-grid";
-import { cityActions } from "features/city/citySlice";
-import "react-toastify/dist/ReactToastify.css";
-
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import { DataGrid } from '@mui/x-data-grid';
+import { cityActions } from 'features/city/citySlice';
+import 'react-toastify/dist/ReactToastify.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        position: "relative",
-        paddingTop: "16px",
+        position: 'relative',
+        paddingTop: '16px',
     },
     loading: {
-        position: "absolute",
-        top: "10px",
-        width: "100%",
+        position: 'absolute',
+        top: '10px',
+        width: '100%',
     },
 }));
-
 
 export function Student() {
     const classes = useStyles();
@@ -48,7 +47,6 @@ export function Student() {
         dispatch(cityActions.fetchCitiesStart());
     }, [dispatch]);
 
-
     useEffect(() => {
         dispatch(studentAction.fetchStudentListStart(filter));
     }, [dispatch, filter]);
@@ -58,34 +56,34 @@ export function Student() {
             studentAction.setFilter({
                 ...filter,
                 _page: value,
-            })
+            }),
         );
     };
 
     const actionColumn = [
         {
-            field: "action",
-            headerName: "Action",
+            field: 'action',
+            headerName: 'Action',
             width: 200,
             renderCell: (params: { row: { id: any } }) => {
                 return (
-                    <Box className='cellAction'>
+                    <Box className="cellAction">
                         <Link
                             to={`/admin/students/${params.row.id}`}
-                            className='cellAction_viewBtn'
-                            style={{ textDecoration: "none" }}
+                            className="cellAction_viewBtn"
+                            style={{ textDecoration: 'none' }}
                         >
                             Edit
                         </Link>
                         <Button
-                            className='cellAction_deleteBtn'
-                            color='error'
+                            className="cellAction_deleteBtn"
+                            color="error"
                             onClick={() => {
                                 setStudents(
                                     students.filter(
                                         (student) =>
-                                            student.id !== params.row.id
-                                    )
+                                            student.id !== params.row.id,
+                                    ),
                                 );
                             }}
                         >
@@ -101,38 +99,37 @@ export function Student() {
         <Box>
             {loading && <LinearProgress className={classes.loading} />}
             <Box
-                display='flex'
-                justifyContent='space-between'
-                alignItems='center'
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
             >
-                <Typography variant='h3' padding='16px 0' fontSize='32px'>
+                <Typography variant="h3" padding="16px 0" fontSize="32px">
                     All Students
                 </Typography>
-                <Box fontSize='32px'>
+                <Box fontSize="32px">
                     <TextField
-                        id='standard-basic'
-                        label='Student Name'
-                        variant='standard'
+                        id="standard-basic"
+                        label="Student Name"
+                        variant="standard"
                         InputProps={{
                             startAdornment: (
-                                <InputAdornment position='start'>
-                                    <PersonAddAltIcon color='info' />
+                                <InputAdornment position="start">
+                                    <PersonAddAltIcon color="info" />
                                 </InputAdornment>
                             ),
                         }}
                     />
                     <Link
-                        to='/admin/students/add'
-                        style={{ textDecoration: "none", marginLeft: "32px" }}
+                        to="/admin/students/add"
+                        style={{ textDecoration: 'none', marginLeft: '32px' }}
                     >
-                        <Button variant='contained'>Add New</Button>
+                        <Button variant="contained">Add New</Button>
                     </Link>
                 </Box>
             </Box>
-           
 
             {/* <StudentTable rows={studentList} height='660px' /> */}
-            <Box sx={{ height: "660px", width: "100%" }}>
+            <Box sx={{ height: '660px', width: '100%' }}>
                 <DataGrid
                     rows={students}
                     columns={columns.concat(actionColumn)}
@@ -141,9 +138,9 @@ export function Student() {
                     checkboxSelection
                 />
             </Box>
-            <Box mt={2} display='flex' justifyContent='center'>
+            <Box mt={2} display="flex" justifyContent="center">
                 <Pagination
-                    color='primary'
+                    color="primary"
                     count={Math.ceil(pagination._totalRows / pagination._limit)}
                     page={pagination._page}
                     onChange={handleChangePage}
