@@ -11,6 +11,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 
 import About from './features/about';
+import Setting from './features/setting';
 
 function App() {
     console.log('object');
@@ -31,6 +32,7 @@ function App() {
                 <Route path="students/add" element={<StudentForm />} />
                 <Route path="students/:studentId" element={<AddEditPage />} />
                 <Route path="about" element={<About />} />
+                <Route path="setting" element={<Setting />} />
             </Route>
             <Route path="*" element={<NotFound />} />
         </Routes>
