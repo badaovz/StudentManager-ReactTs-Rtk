@@ -14,7 +14,7 @@ const index = () => {
                         src={logoSchool}
                         alt="logoSchool"
                         style={{
-                            width: '100%',
+                            width: '80%',
                             objectFit: 'cover',
                             overflow: 'hidden',
                         }}
@@ -28,7 +28,15 @@ const index = () => {
                         product is and why it's worth purchasing. The purpose of
                         a product description is to supply customers with
                         important information about the features and benefits of
-                        the product so they're compelled to buy.
+                        the product so they're compelled to buy.for all popular
+                        schools in the world. A product description is the
+                        marketing copy that explains what a product is and why
+                        it's worth purchasing. The purpose of a product
+                        description is to supply customers with important
+                        information about the features and benefits of the
+                        product so they're compelled to buy. the product so
+                        they're compelled to buy.for all popular schools in the
+                        world.
                     </Typography>
                 </Grid>
             </Grid>

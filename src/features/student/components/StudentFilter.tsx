@@ -1,4 +1,4 @@
-import { Search } from "@mui/icons-material";
+import { Search } from '@mui/icons-material';
 import {
     Box,
     Button,
@@ -8,10 +8,10 @@ import {
     MenuItem,
     OutlinedInput,
     Select,
-    SelectChangeEvent
-} from "@mui/material";
-import { City, ListParams } from "models";
-import { ChangeEvent, useRef } from "react";
+    SelectChangeEvent,
+} from '@mui/material';
+import { City, ListParams } from 'models';
+import { ChangeEvent, useRef } from 'react';
 
 export interface StudentFilterProps {
     filter: ListParams;
@@ -29,40 +29,44 @@ function StudentFilter({
 }: StudentFilterProps) {
     const searchRef = useRef<HTMLInputElement>();
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if(!onSearchChange) return;
-        const newFilter : ListParams = {
+        if (!onSearchChange) return;
+        const newFilter: ListParams = {
             ...filter,
             name_like: e.target.value,
             _page: 1,
-        }
+        };
         onSearchChange(newFilter);
     };
-    
-    const handleCityChange = (e: SelectChangeEvent<{name?: string, value: unknown}>) => {
-        if(!onChange) return;
-        const newFilter : ListParams = {
+
+    const handleCityChange = (
+        e: SelectChangeEvent<{ name?: string; value: unknown }>,
+    ) => {
+        if (!onChange) return;
+        const newFilter: ListParams = {
             ...filter,
             city: e.target.value || undefined,
             _page: 1,
-        }
+        };
         onChange(newFilter);
     };
-    const handleSortChange = (e : SelectChangeEvent<{name?: string, value: unknown} | string>) => {
-        if(!onChange) return;
+    const handleSortChange = (
+        e: SelectChangeEvent<{ name?: string; value: unknown } | string>,
+    ) => {
+        if (!onChange) return;
         const value = e.target.value;
         const [_sort, _order] = (value as string).split('.');
-        const newFilter : ListParams = {
+        const newFilter: ListParams = {
             ...filter,
             _sort: _sort || undefined,
             _order: _order,
-        }
+        };
         onChange(newFilter);
     };
     const handleClearFilter = () => {
-        if(!onChange) return;
-        const newFilter : ListParams = {
+        if (!onChange) return;
+        const newFilter: ListParams = {
             ...filter,
-            _page:1,
+            _page: 1,
             _sort: undefined,
             _order: undefined,
             city: undefined,
@@ -70,7 +74,7 @@ function StudentFilter({
         };
 
         onChange(newFilter);
-        if(searchRef.current) {
+        if (searchRef.current) {
             searchRef.current.value = '';
         }
     };
@@ -78,13 +82,13 @@ function StudentFilter({
         <Box>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
-                    <FormControl fullWidth variant='outlined' size='small'>
-                        <InputLabel htmlFor='searchByName'>
+                    <FormControl fullWidth variant="outlined" size="small">
+                        <InputLabel htmlFor="searchByName">
                             Search By Name
                         </InputLabel>
                         <OutlinedInput
-                            id='searchByName'
-                            label='Search By Name'
+                            id="searchByName"
+                            label="Search By Name"
                             startAdornment={<Search />}
                             defaultValue={filter.name_like}
                             onChange={handleSearchChange}
@@ -93,14 +97,14 @@ function StudentFilter({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
-                    <FormControl fullWidth variant='outlined' size='small'>
-                        <InputLabel id='filterByCity'>
+                    <FormControl fullWidth variant="outlined" size="small">
+                        <InputLabel id="filterByCity">
                             Filter By City
                         </InputLabel>
                         <Select
-                            labelId='Search By Name'
-                            value={filter.city || ""}
-                            label='Filter By City'
+                            labelId="Search By Name"
+                            value={filter.city || ''}
+                            label="Filter By City"
                             onChange={handleCityChange}
                         >
                             <MenuItem>
@@ -115,10 +119,10 @@ function StudentFilter({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
-                    <FormControl fullWidth variant='outlined' size='small'>
-                        <InputLabel id='sortBy'>Sort</InputLabel>
+                    <FormControl fullWidth variant="outlined" size="small">
+                        <InputLabel id="sortBy">Sort</InputLabel>
                         <Select
-                            labelId='sortBy'
+                            labelId="sortBy"
                             value={
                                 filter._sort
                                     ? `${filter._sort}.${filter._order}`
@@ -126,26 +130,28 @@ function StudentFilter({
                             }
                             defaultValue={filter.name_like}
                             onChange={handleSortChange}
-                            label='Sort'
+                            label="Sort"
                         >
-                            <MenuItem value=''>
+                            <MenuItem value="">
                                 <em>No sort</em>
                             </MenuItem>
 
-                            <MenuItem value='name.asc'>Name Asc</MenuItem>
-                            <MenuItem value='name.desc'>Name Desc</MenuItem>
-                            <MenuItem value='mark.asc'>Name Asc</MenuItem>
-                            <MenuItem value='mark.asc'>Name Desc</MenuItem>
+                            <MenuItem value="name.asc">Name Asc</MenuItem>
+                            <MenuItem value="name.desc">Name Desc</MenuItem>
+                            <MenuItem value="mark.asc">Mark Asc</MenuItem>
+                            <MenuItem value="mark.desc">Mark Desc</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6} lg={1}>
                     <Button
-                        variant='outlined'
-                        color='primary'
+                        variant="outlined"
+                        color="primary"
                         fullWidth
                         onClick={handleClearFilter}
-                    ></Button>
+                    >
+                        Clear
+                    </Button>
                 </Grid>
             </Grid>
         </Box>

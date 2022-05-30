@@ -6,20 +6,27 @@ import { studentAction } from './studentSlice';
 
 function* fetchStudentList(action: PayloadAction<ListParams>) {
     try {
-        const response: ListResponse<Student> = yield call(studentApi.getAllStudent, action.payload);
+        const response: ListResponse<Student> = yield call(
+            studentApi.getAllStudent,
+            action.payload,
+        );
         yield put(studentAction.fetchStudentListSuccess(response));
     } catch (err) {
-        console.log('fetchStudentList Err: ', err)
-        yield put(studentAction.fetchStudentListFailed())
+        console.log('fetchStudentList Err: ', err);
+        yield put(studentAction.fetchStudentListFailed());
     }
 }
 
 function* handleSearchDebounce(action: PayloadAction<ListParams>) {
-    yield put(studentAction.setFilter(action.payload))
+    yield put(studentAction.setFilter(action.payload));
 }
 
 export default function* studentSaga() {
     yield takeLatest(studentAction.fetchStudentListStart, fetchStudentList);
 
-    yield debounce(500, studentAction.setFilterWithDebounce.type, handleSearchDebounce)
+    yield debounce(
+        500,
+        studentAction.setFilterWithDebounce.type,
+        handleSearchDebounce,
+    );
 }

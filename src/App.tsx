@@ -4,7 +4,7 @@ import { Admin } from 'components/Layout/Admin';
 import { LoginPage } from 'features/auth/pages/LoginPage';
 import { DashBoard } from 'features/dashboard/pages';
 import StudentForm from 'features/student/components/StudentForm';
-import { Student } from 'features/student/pages';
+import { StudentPage } from 'features/student/pages';
 import AddEditPage from 'features/student/pages/AddEditPage';
 import { Home } from 'Home';
 import { Route, Routes } from 'react-router-dom';
@@ -28,7 +28,7 @@ function App() {
                 }
             >
                 <Route path="dashboard" element={<DashBoard />} />
-                <Route path="students" element={<Student />} />
+                <Route path="students" element={<StudentPage />} />
                 <Route path="students/add" element={<StudentForm />} />
                 <Route path="students/:studentId" element={<AddEditPage />} />
                 <Route path="about" element={<About />} />

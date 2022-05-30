@@ -10,14 +10,16 @@ import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { columns } from 'features/dashboard/components/StudentTable';
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { studentAction } from '../studentSlice';
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { DataGrid } from '@mui/x-data-grid';
-import { cityActions } from 'features/city/citySlice';
+import { cityActions, selectCityList } from 'features/city/citySlice';
+import { ListParams } from 'models';
 import 'react-toastify/dist/ReactToastify.css';
+import StudentFilter from '../components/StudentFilter';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,13 +33,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export function Student() {
+export function StudentPage() {
     const classes = useStyles();
     const dispatch = useAppDispatch();
     const loading = useAppSelector((state) => state.student.isLoading);
     const filter = useAppSelector((state) => state.student.filter);
-    const studentList = useAppSelector((state) => state.student.studentList);
+    let studentList = useAppSelector((state) => state.student.studentList);
     const pagination = useAppSelector((state) => state.student.pagination);
+    const cityList = useAppSelector(selectCityList);
     const [students, setStudents] = useState(studentList);
 
     useEffect(() => {
@@ -51,7 +54,7 @@ export function Student() {
         dispatch(studentAction.fetchStudentListStart(filter));
     }, [dispatch, filter]);
 
-    const handleChangePage = (e: React.ChangeEvent<unknown>, value: number) => {
+    const handleChangePage = (e: ChangeEvent<unknown>, value: number) => {
         dispatch(
             studentAction.setFilter({
                 ...filter,
@@ -94,31 +97,34 @@ export function Student() {
             },
         },
     ];
+    console.log('students: ', students);
+
+    const handleFilterChange = (newFilter: ListParams) => {
+        dispatch(studentAction.setFilter(newFilter));
+    };
+    const handleSearchChange = (newFilter: ListParams) => {
+        dispatch(studentAction.setFilterWithDebounce(newFilter));
+    };
 
     return (
         <Box>
             {loading && <LinearProgress className={classes.loading} />}
+            {console.log('render')}
             <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
+                mb={3}
             >
                 <Typography variant="h3" padding="16px 0" fontSize="32px">
                     All Students
                 </Typography>
-                <Box fontSize="32px">
-                    <TextField
-                        id="standard-basic"
-                        label="Student Name"
-                        variant="standard"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <PersonAddAltIcon color="info" />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
+                <Box
+                    fontSize="32px"
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                >
                     <Link
                         to="/admin/students/add"
                         style={{ textDecoration: 'none', marginLeft: '32px' }}
@@ -127,9 +133,15 @@ export function Student() {
                     </Link>
                 </Box>
             </Box>
+            <StudentFilter
+                filter={filter}
+                cityList={cityList}
+                onChange={handleFilterChange}
+                onSearchChange={handleSearchChange}
+            />
 
             {/* <StudentTable rows={studentList} height='660px' /> */}
-            <Box sx={{ height: '660px', width: '100%' }}>
+            <Box sx={{ height: '660px', width: '100%' }} mt={3}>
                 <DataGrid
                     rows={students}
                     columns={columns.concat(actionColumn)}
