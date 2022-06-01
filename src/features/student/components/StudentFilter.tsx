@@ -62,6 +62,7 @@ function StudentFilter({
         };
         onChange(newFilter);
     };
+    console.log('firssssst');
     const handleClearFilter = () => {
         if (!onChange) return;
         const newFilter: ListParams = {
